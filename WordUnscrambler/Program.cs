@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,37 +11,46 @@ namespace WordUnscrambler
     {
         private static readonly FileReader _fileReader = new FileReader();
         private static readonly WordMatcher _wordMatcher = new WordMatcher();
+        private static bool isContinue = true;
 
         private static void Main(string[] args)
         {
-            try
+            while (isContinue == true)
             {
-                Console.WriteLine("Enter scambled word(s) manually or as a file: F- file / M - Manual");
-
-                String Option = Console.ReadLine() ?? throw new Exception("String is empty/null");
-
-                switch (Option.ToUpper())
+                String Option = null;
+                try
                 {
-                    case "F":
-                        Console.WriteLine("Please provide the path of the file");
-                        ExecuteScrambleWordInFileScenario();
+                    while (Option != "F" && Option != "M")
+                    {
+                        Console.WriteLine("Enter scambled word(s) manually or as a file: F- file / M - Manual");
+                        Option = Console.ReadLine() ?? throw new Exception("String is empty/null");
 
-                        break;
+                        switch (Option.ToUpper())
+                        {
+                            case "F":
+                                Console.WriteLine("Please provide the path of the file");
+                                ExecuteScrambleWordInFileScenario();
 
-                    case "M":
-                        Console.WriteLine("Please enter the word(s) manually seperated by commas if multiple");
-                        ExecuteScrambleWordInManuelScenario();
+                                break;
 
-                        break;
+                            case "M":
+                                Console.WriteLine("Please enter the word(s) manually seperated by commas if multiple");
+                                ExecuteScrambleWordInManuelScenario();
 
-                    default:
-                        Console.WriteLine("The entered option was not recognized");
-                        break;
+                                break;
+
+                            default:
+                                Console.WriteLine("The entered option was not recognized");
+
+                                break;
+                        }
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("The program will be terminated." + ex.Message);
+                catch (Exception ex)
+                {
+                    Console.WriteLine("The program will be terminated." + ex.Message);
+                }
+                Console.ReadLine();
             }
         }
 
@@ -51,7 +61,6 @@ namespace WordUnscrambler
             //extract the wrods into a string[] - use Split()
             //char[] seperators = { ',', ' ' };
             //string[] scrambledWords = manualInput.Split();
-            DisplayMatchedUnscrambledWords(scrambledWords);
         }
 
         private static void ExecuteScrambleWordInFileScenario()
@@ -88,6 +97,16 @@ namespace WordUnscrambler
             else
             {
                 Console.WriteLine("MATCH HAS NOT BEEN FOUND");
+            }
+            Console.WriteLine("Would you like to continue? Y/N");
+            String response = Console.ReadLine();
+            if (response == "Y")
+            {
+                isContinue = true;
+            }
+            else if (response == "NO")
+            {
+                isContinue = false;
             }
         }
     }

@@ -23,6 +23,8 @@ namespace WordUnscrambler
             }
             //return file contents, which is a string[]
             //Line of code should be around 9
+            string[] bokk = { "alo", "hi" };
+            return bokk;
         }
     }
 }
