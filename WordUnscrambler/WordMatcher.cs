@@ -28,15 +28,19 @@ namespace WordUnscrambler
                         char[] unscrambledWordArray = word.ToCharArray();
 
                         //sort both chracter arrays
-                        scrambledWordArray.Sort();
-
-                        //act -> sort -> act
-                        //cat -> sort -> act
+                        Array.Sort(scrambledWordArray);
+                        Array.Sort(unscrambledWordArray);
 
                         //convert back to a string
+                        string scramble = getString(scrambledWordArray);
+                        string unscramble = getString(unscrambledWordArray);
 
                         //compare the two strings
-                        // if they are equal, add to matchedWord list
+                        if (scramble == unscramble)
+                        {
+                            // if they are equal, add to matchedWord list
+                            matchedWords.Add(BuildMatchedWord(scrambledWord, word));
+                        }
                     }
                 }
             }
@@ -52,6 +56,12 @@ namespace WordUnscrambler
             };
 
             return matchedWord;
+        }
+
+        public string getString(char[] arr)
+        {
+            string word = string.Concat(arr);
+            return word;
         }
     }
 }
