@@ -80,14 +80,14 @@ namespace WordUnscrambler
                 //foreach
                 foreach (var matchedWord in matchedWords)
                 {
-                    Console.WriteLine("MATCH FOUND FOR" + matchedWord + "= " + matchedWord);
+                    //write to console
+                    //MATCH FOUND FOR "ACT" = CAT
+                    Console.WriteLine("MATCH FOUND FOR" + matchedWord.ScrambledWord + "= " + matchedWord.Word);
                 }
-                //write to console
-                //MATCH FOUND FOR "ACT" = CAT
             }
             else
             {
-                //NO MATCHES  HAVE BEEN FOUND
+                Console.WriteLine("MATCH HAS NOT BEEN FOUND");
             }
         }
     }
