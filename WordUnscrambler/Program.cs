@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,27 +21,27 @@ namespace WordUnscrambler
                 String Option = null;
                 try
                 {
-                    while (Option != "F" && Option != "M")
+                    while (Option != Constant.ftype && Option != Constant.mType)
                     {
-                        Console.WriteLine("Enter scambled word(s) manually or as a file: F- file / M - Manual");
-                        Option = Console.ReadLine() ?? throw new Exception("String is empty/null");
+                        Console.WriteLine(Constant.askType);
+                        Option = Console.ReadLine() ?? throw new Exception(Constant.emptyString);
 
                         switch (Option.ToUpper())
                         {
-                            case "F":
-                                Console.WriteLine("Please provide the path of the file");
+                            case Constant.ftype:
+                                Console.WriteLine(Constant.askFilePath);
                                 ExecuteScrambleWordInFileScenario();
 
                                 break;
 
-                            case "M":
-                                Console.WriteLine("Please enter the word(s) manually seperated by commas if multiple");
+                            case Constant.mType:
+                                Console.WriteLine(Constant.askManual);
                                 ExecuteScrambleWordInManuelScenario();
 
                                 break;
 
                             default:
-                                Console.WriteLine("The entered option was not recognized");
+                                Console.WriteLine(Constant.notRecognize);
 
                                 break;
                         }
@@ -50,7 +51,6 @@ namespace WordUnscrambler
                 {
                     Console.WriteLine("The program will be terminated." + ex.Message);
                 }
-                Console.ReadLine();
             }
         }
 
@@ -58,9 +58,10 @@ namespace WordUnscrambler
         {
             //get user's input - a comma seperated string containing scrambled words
             //string manualInput;
-            //extract the wrods into a string[] - use Split()
-            //char[] seperators = { ',', ' ' };
-            //string[] scrambledWords = manualInput.Split();
+            string listOfWords = Console.ReadLine();
+            string[] manualInput = listOfWords.Split(' ', ',');
+
+            DisplayMatchedUnscrambledWords(manualInput);
         }
 
         private static void ExecuteScrambleWordInFileScenario()
@@ -77,7 +78,7 @@ namespace WordUnscrambler
         private static void DisplayMatchedUnscrambledWords(string[] scrambleWords)
         {
             //read the list of words in the wordlist.txt file (unscrambled words)
-            string[] wordList = _fileReader.Read("wordlist.txt");
+            string[] wordList = _fileReader.Read(Constant.fileName);
 
             //call a word matcher method, to get a list of MatchedWord structs
             List<MatchedWord> matchedWords = _wordMatcher.Match(scrambleWords, wordList);
@@ -91,20 +92,20 @@ namespace WordUnscrambler
                 {
                     //write to console
                     //MATCH FOUND FOR "ACT" = CAT
-                    Console.WriteLine("MATCH FOUND FOR" + matchedWord.ScrambledWord + "= " + matchedWord.Word);
+                    Console.WriteLine("MATCH FOUND FOR " + matchedWord.ScrambledWord + " : " + matchedWord.Word);
                 }
             }
             else
             {
-                Console.WriteLine("MATCH HAS NOT BEEN FOUND");
+                Console.WriteLine(Constant.notMatchFound);
             }
-            Console.WriteLine("Would you like to continue? Y/N");
+            Console.WriteLine(Constant.askContinue);
             String response = Console.ReadLine();
-            if (response == "Y")
+            if (response.ToUpper() == Constant.yes)
             {
                 isContinue = true;
             }
-            else if (response == "NO")
+            else if (response.ToUpper() == Constant.no)
             {
                 isContinue = false;
             }

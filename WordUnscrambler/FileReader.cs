@@ -14,8 +14,11 @@ namespace WordUnscrambler
             //declare a string[] to hold the contents of the file
             //try/catch
             //ReadAllLines()
+            string[] filecontent = null;
             try
             {
+                filecontent = File.ReadAllLines(filename);
+
             }
             catch (FileNotFoundException ex)
             {
@@ -23,8 +26,8 @@ namespace WordUnscrambler
             }
             //return file contents, which is a string[]
             //Line of code should be around 9
-            string[] bokk = { "alo", "hi" };
-            return bokk;
+            
+            return filecontent;
         }
     }
 }
